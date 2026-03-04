@@ -1,114 +1,307 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Trevor's Fitted Caps</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trevor's Fitted Caps</title>
 
-<style>
+  <style>
+    :root{
+      --bg1:#0b0f14;
+      --bg2:#07090d;
+      --card:#0f141b;
+      --card2:#0b0f14;
+      --text:#e9eef5;
+      --muted:#a9b4c2;
+      --accent:#00ffae;
+      --accent2:#00cc8a;
+      --border: rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.55);
+    }
 
-body{
-font-family: Arial;
-background-color:#111;
-color:white;
-text-align:center;
-margin:0;
-}
+    *{ box-sizing:border-box; }
 
-header{
-background:black;
-padding:20px;
-font-size:28px;
-font-weight:bold;
-letter-spacing:2px;
-}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color: var(--text);
 
-.container{
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-padding:30px;
-}
+      /* Professional background: gradient + subtle pattern */
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(0,255,174,.10), transparent 60%),
+        radial-gradient(700px 420px at 85% 20%, rgba(0,204,138,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+    }
 
-.cap{
-background:#1e1e1e;
-margin:20px;
-padding:20px;
-border-radius:10px;
-width:250px;
-}
+    /* subtle grid texture */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background-image:
+        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 44px 44px;
+      opacity:.08;
+      mix-blend-mode: overlay;
+    }
 
-.cap img{
-width:100%;
-border-radius:10px;
-}
+    header{
+      position:sticky;
+      top:0;
+      z-index:10;
+      backdrop-filter: blur(10px);
+      background: rgba(7,9,13,.65);
+      border-bottom: 1px solid var(--border);
+    }
 
-.price{
-font-size:20px;
-margin:10px 0;
-color:#00ffae;
-}
+    .nav{
+      max-width:1100px;
+      margin:0 auto;
+      padding:16px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
 
-button{
-background:#00ffae;
-border:none;
-padding:10px 20px;
-border-radius:5px;
-font-weight:bold;
-cursor:pointer;
-}
+    .brand{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      line-height:1.1;
+    }
 
-button:hover{
-background:#00cc8a;
-}
+    .brand h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:1px;
+      text-transform:uppercase;
+    }
 
-footer{
-margin-top:40px;
-padding:20px;
-background:black;
-}
+    .brand p{
+      margin:6px 0 0;
+      font-size:12px;
+      color:var(--muted);
+    }
 
-</style>
+    .cta{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+
+    .pill{
+      font-size:12px;
+      padding:8px 12px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      color:var(--muted);
+      background: rgba(255,255,255,.04);
+    }
+
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:26px 18px 40px;
+    }
+
+    .hero{
+      padding:26px 18px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border-radius:18px;
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .hero h2{
+      margin:0 0 8px;
+      font-size:28px;
+      letter-spacing:.5px;
+    }
+
+    .hero p{
+      margin:0;
+      color:var(--muted);
+      max-width:700px;
+      line-height:1.5;
+      font-size:14px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap:16px;
+      margin-top:18px;
+    }
+
+    .cap{
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, var(--card), var(--card2));
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow: 0 10px 26px rgba(0,0,0,.45);
+      transition: transform .18s ease, border-color .18s ease;
+    }
+
+    .cap:hover{
+      transform: translateY(-4px);
+      border-color: rgba(0,255,174,.22);
+    }
+
+    .cap img{
+      width:100%;
+      height:220px;
+      object-fit:cover;
+      display:block;
+      background:#0a0a0a;
+    }
+
+    .cap-body{
+      padding:14px;
+      text-align:left;
+    }
+
+    .cap-title{
+      margin:0;
+      font-size:16px;
+      letter-spacing:.2px;
+    }
+
+    .cap-meta{
+      margin:8px 0 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .price{
+      font-size:16px;
+      font-weight:700;
+      color: var(--accent);
+    }
+
+    .tag{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:5px 10px;
+      background: rgba(255,255,255,.03);
+    }
+
+    .btn{
+      width:100%;
+      border:none;
+      padding:11px 14px;
+      border-radius:12px;
+      font-weight:800;
+      cursor:pointer;
+      color:#00120b;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      transition: filter .15s ease, transform .05s ease;
+    }
+
+    .btn:hover{ filter: brightness(1.06); }
+    .btn:active{ transform: scale(.99); }
+
+    footer{
+      margin-top:26px;
+      text-align:center;
+      color:var(--muted);
+      font-size:12px;
+      padding:14px 0;
+    }
+
+    a{ color: var(--accent); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+  </style>
 </head>
 
 <body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <h1>Trevor's Fitted Caps</h1>
+        <p>Premium fitted caps • Campus delivery / meetups</p>
+      </div>
+      <div class="cta">
+        <span class="pill">Fast WhatsApp orders</span>
+        <span class="pill">Limited stock</span>
+      </div>
+    </div>
+  </header>
 
-<header>
-TREVOR'S FITTED CAPS
-</header>
+  <main class="wrap">
+    <section class="hero">
+      <h2>Fresh drops. Clean fits.</h2>
+      <p>
+        Browse the available caps below and tap “Order on WhatsApp” to buy.
+        First come, first served — stock is limited.
+      </p>
 
-<div class="container">
+      <div class="grid">
+        <!-- CAP 1 -->
+        <div class="cap">
+          <img src="images/newerayankees.jpg" alt="new-era-yankees-cap" />
+          <div class="cap-body">
+            <h3 class="cap-title">New Era Yankees</h3>
+            <div class="cap-meta">
+              <div class="price">R350</div>
+              <div class="tag">59FIFTY</div>
+            </div>
+            <button class="btn" onclick="window.location.href='https://wa.me/27716328024?text=Hi%20I%27m%20interested%20in%20the%20New%20Era%20Yankees%20cap'">
+              Order on WhatsApp
+            </button>
+          </div>
+        </div>
 
-<div class="cap">
-<img src="images/newerayankees.jpg" alt="new-era-yankees-cap">
-<h3>New Era Yankees</h3>
-<div class="price">R350</div>
-<button onclick="window.location.href='https://wa.me/27716328024'">
-Order on WhatsApp
-</button>
-</div>
+        <!-- CAP 2 -->
+        <div class="cap">
+          <img src="images/dodgers.jpg" alt="la-dodgers-fitted-cap" />
+          <div class="cap-body">
+            <h3 class="cap-title">LA Dodgers Fitted</h3>
+            <div class="cap-meta">
+              <div class="price">R350</div>
+              <div class="tag">Classic</div>
+            </div>
+            <button class="btn" onclick="window.location.href='https://wa.me/27716328024?text=Hi%20I%27m%20interested%20in%20the%20LA%20Dodgers%20cap'">
+              Order on WhatsApp
+            </button>
+          </div>
+        </div>
 
-<div class="cap">
-<img src="images/dodgers.jpg" alt="la-dodgers-fitted-cap">
-<h3>LA Dodgers Fitted</h3>
-<div class="price">R350</div>
-<button onclick="window.location.href='https://wa.me/27716328024'">
-Order on WhatsApp
-</button>
-</div>
+        <!-- CAP 3 -->
+        <div class="cap">
+          <img src="images/bulls.jpg" alt="chicago-bulls-cap" />
+          <div class="cap-body">
+            <h3 class="cap-title">Boston Red Sox</h3>
+            <div class="cap-meta">
+              <div class="price">R350</div>
+              <div class="tag">Streetwear</div>
+            </div>
+            <button class="btn" onclick="window.location.href='https://wa.me/27716328024?text=Hi%20I%27m%20interested%20in%20the%20Boston%20Red%20Sox%20cap'">
+              Order on WhatsApp
+            </button>
+          </div>
+        </div>
 
-<div class="cap">
-<img src="images/bulls.jpg" alt="chicago-bulls-fitted-cap">
-<h3>Chicago Bulls</h3>
-<div class="price">R350</div>
-<button onclick="window.location.href='https://wa.me/27716328024'">
-Order on WhatsApp
-</button>
-</div>
+      </div>
+    </section>
 
-</div>
+    <footer>
+      © <span id="year"></span> Trevor's Fitted Caps • WhatsApp Orders Only
+    </footer>
+  </main>
 
-<footer>
-Trevor's Fitted Caps • WhatsApp Orders Only
-</footer>
-
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
